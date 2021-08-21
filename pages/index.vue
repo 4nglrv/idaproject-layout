@@ -1,12 +1,27 @@
 <template>
-  <Form class="form" />
+  <div class="index">
+    <Form class="form" />
+    <Card v-for="product in products" :key="product.id" :product="product" />
+  </div>
 </template>
 
 <script>
-export default {}
+import { mapGetters } from 'vuex'
+export default {
+  computed: {
+    ...mapGetters('products', ['getAllProducts']),
+
+    products() {
+      return this.getAllProducts
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>
+.index {
+  display: flex;
+}
 .form {
   width: 24%;
   background: #fffefb;

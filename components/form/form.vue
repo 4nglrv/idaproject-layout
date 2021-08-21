@@ -83,6 +83,7 @@ export default {
     ValidationProvider
   },
   data: () => ({
+    id: '',
     name: '',
     desc: '',
     link: '',
