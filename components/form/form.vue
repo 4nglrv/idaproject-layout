@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ValidationObserver v-slot="{ invalid }">
+    <ValidationObserver ref="provider" v-slot="{ invalid }">
       <label for="name" class="input">
         <p>
           Наименование товара
@@ -8,28 +8,30 @@
         </p>
         <ValidationProvider v-slot="{ errors }" name="name" rules="required">
           <input
-            v-model="name"
+            v-model="product.name"
             name="name"
             type="text"
             placeholder="Введите наименование товара"
-            :class="{'is-invalid': errors[0]}"
+            :class="{ 'is-invalid': errors[0] }"
           />
-          <span class="error-message">{{ errors[0] }}</span>
+          <transition name="error">
+            <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
+          </transition>
         </ValidationProvider>
       </label>
 
       <label for="desc">
-        <p>
-          Описание товара
-        </p>
+        <p>Описание товара</p>
         <ValidationProvider v-slot="{ errors }" name="desc">
           <textarea
             id="desc"
-            v-model="desc"
+            v-model="product.desc"
             placeholder="Введите описание товара"
-            :class="{'is-invalid': errors[0]}"
+            :class="{ 'is-invalid': errors[0] }"
           />
-          <span class="error-message">{{ errors[0] }}</span>
+          <transition name="error">
+            <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
+          </transition>
         </ValidationProvider>
       </label>
 
@@ -40,38 +42,51 @@
         </p>
         <ValidationProvider v-slot="{ errors }" name="link" rules="required">
           <input
-            v-model="link"
+            v-model="product.link"
             name="link"
             type="text"
             placeholder="Введите ссылку"
-            :class="{'is-invalid': errors[0]}"
+            :class="{ 'is-invalid': errors[0] }"
           />
-          <span class="error-message">{{ errors[0] }}</span>
+          <transition name="error">
+            <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
+          </transition>
         </ValidationProvider>
       </label>
 
-      <label for="link">
+      <label for="price">
         <p>
           Цена товара
           <b class="circle"></b>
         </p>
-        <ValidationProvider v-slot="{ errors }" name="price" rules="numeric|required">
+        <ValidationProvider
+          v-slot="{ errors }"
+          name="price"
+          rules="numeric|required"
+        >
           <input
-            v-model="price"
+            v-model="product.price"
             name="price"
             type="text"
             placeholder="Введите цену"
-            :class="{'is-invalid': errors[0]}"
+            :class="{ 'is-invalid': errors[0] }"
           />
-          <span class="error-message">{{ errors[0] }}</span>
+          <transition name="error">
+            <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
+          </transition>
         </ValidationProvider>
       </label>
-      <Button value="Добавить товар" :disabled="invalid ? 1 : 0" />
+      <Button
+        value="Добавить товар"
+        :disabled="invalid ? 1 : 0"
+        :onClick="addProductToStore"
+      />
     </ValidationObserver>
   </div>
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import Button from '../ui/button/button'
 
@@ -80,20 +95,53 @@ export default {
   components: {
     Button,
     ValidationObserver,
-    ValidationProvider
+    ValidationProvider,
   },
   data: () => ({
-    id: '',
-    name: '',
-    desc: '',
-    link: '',
-    price: '',
+    product: {
+      id: Math.random().toString(36).substr(2, 9),
+      name: '',
+      desc: '',
+      link: '',
+      price: '',
+    }
   }),
+  mounted() {
+    // all those properties are required.
+    this.$refs.provider.applyResult({
+      errors: [], // array of string errors
+      valid: false, // boolean state
+      failedRules: {} // should be empty since this is a manual error.
+    })
+  },
+  methods: {
+    ...mapMutations('products', ['addProduct']),
+    addProductToStore() {
+      this.addProduct(this.product)
+      this.product = {
+        id: Math.random().toString(36).substr(2, 9),
+        name: '',
+        desc: '',
+        link: '',
+        price: '',
+      }
+      this.$refs.provider.reset()
+    },
+  },
 }
 </script>
 
 <style lang="scss" scoped>
-@import "~/assets/scss/_vars";
+@import '~/assets/scss/_vars';
+.error-enter-active,
+.error-leave-active {
+  transition: all 0.22s ease-out !important;
+}
+.error-enter,
+.error-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
 
 label {
   display: flex;
@@ -115,29 +163,33 @@ label {
   }
   > span input,
   > span textarea {
+    border: 1px solid transparent;
+    border-radius: 4px;
+    position: relative;
     width: 100%;
     padding: 10px 16px;
     box-shadow: $box-shadow;
-    border-radius: 4px;
     resize: vertical;
     transition: all 0.22s ease-in-out;
-    border: 1px solid transparent;
+    z-index: 1;
     &:focus {
       border: 1px solid $dark;
     }
   }
 }
-.is-invalid, .is-invalid:focus {
+.is-invalid,
+.is-invalid:focus {
   border: 1px solid $red;
 }
 .error-message {
+  bottom: -12px;
+  color: $red;
   display: block;
-  position: absolute;
   font-size: 8px;
+  font-weight: 600;
+  position: absolute;
   line-height: 10px;
   letter-spacing: -0.02em;
-  color: $red;
-  bottom: -12px;
-  font-weight: 600;
+  z-index: 0;
 }
 </style>

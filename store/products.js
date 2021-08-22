@@ -33,7 +33,7 @@ export const state = () => ({
 
 export const mutations = {
   addProduct(state, product) {
-    state.card.shift(product)
+    state.products.unshift(product)
   },
 
   removeProduct(state, id) {

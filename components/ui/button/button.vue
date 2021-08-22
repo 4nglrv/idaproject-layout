@@ -1,5 +1,5 @@
 <template>
-  <input type="button" :value="value" :disabled="disabled == 1" />
+  <input type="button" :value="value" :disabled="disabled == 1" @click="onClick" />
 </template>
 <script>
 export default {
@@ -13,6 +13,10 @@ export default {
       type: Number,
       default: 0,
     },
+    onClick: {
+      type: Function,
+      required: true
+    }
   },
 }
 </script>
