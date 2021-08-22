@@ -83,6 +83,7 @@ export default {
     ValidationProvider
   },
   data: () => ({
+    id: '',
     name: '',
     desc: '',
     link: '',
@@ -119,9 +120,14 @@ label {
     box-shadow: $box-shadow;
     border-radius: 4px;
     resize: vertical;
+    transition: all 0.22s ease-in-out;
+    border: 1px solid transparent;
+    &:focus {
+      border: 1px solid $dark;
+    }
   }
 }
-.is-invalid {
+.is-invalid, .is-invalid:focus {
   border: 1px solid $red;
 }
 .error-message {
