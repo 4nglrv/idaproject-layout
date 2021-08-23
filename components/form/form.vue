@@ -62,7 +62,7 @@
         <ValidationProvider
           v-slot="{ errors }"
           name="price"
-          rules="spacenum|required"
+          rules="required"
         >
           <input
             v-model="product.price"
@@ -106,7 +106,7 @@ export default {
       name: '',
       desc: '',
       link: '',
-      price: '',
+      price: null,
     },
   }),
   methods: {
@@ -118,12 +118,15 @@ export default {
         name: '',
         desc: '',
         link: '',
-        price: '',
+        price: null,
       }
       this.$refs.provider.reset() // clear errors
     },
     numberHandler() {
       this.product.price = numberFormatter.format(Number(this.product.price.replace( /\s/g, "")))
+      if (!/^[\d\s]+$/.test(this.product.price)) {
+        this.product.price = null
+      }
     }
   },
 }
