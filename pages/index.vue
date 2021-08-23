@@ -29,8 +29,12 @@ export default {
 
 <style lang="scss" scoped>
 .card-leave-active {
-  transition: all 0.22s ease-out !important;
+  transition-property: opacity, transform;
+  transition-duration: 0.22s;
+  transition-timing-function: ease-out;
   position: absolute;
+  width: 22.9%;
+  transform: translateY(-30px);
 }
 .card-leave-to {
   opacity: 0;

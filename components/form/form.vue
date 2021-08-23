@@ -106,14 +106,6 @@ export default {
       price: '',
     }
   }),
-  mounted() {
-    // all those properties are required.
-    this.$refs.provider.applyResult({
-      errors: [], // array of string errors
-      valid: false, // boolean state
-      failedRules: {} // should be empty since this is a manual error.
-    })
-  },
   methods: {
     ...mapMutations('products', ['addProduct']),
     addProductToStore() {
