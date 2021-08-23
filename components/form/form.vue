@@ -62,7 +62,7 @@
         <ValidationProvider
           v-slot="{ errors }"
           name="price"
-          rules="numeric|required"
+          rules="spacenum|required"
         >
           <input
             v-model="product.price"
@@ -70,6 +70,7 @@
             type="text"
             placeholder="Введите цену"
             :class="{ 'is-invalid': errors[0] }"
+            @input="numberHandler"
           />
           <transition name="error">
             <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
@@ -90,6 +91,8 @@ import { mapMutations } from 'vuex'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import Button from '../ui/button/button'
 
+const numberFormatter = new Intl.NumberFormat('ru-RU')
+
 export default {
   name: 'Form',
   components: {
@@ -104,7 +107,7 @@ export default {
       desc: '',
       link: '',
       price: '',
-    }
+    },
   }),
   methods: {
     ...mapMutations('products', ['addProduct']),
@@ -117,8 +120,11 @@ export default {
         link: '',
         price: '',
       }
-      this.$refs.provider.reset()
+      this.$refs.provider.reset() // clear errors
     },
+    numberHandler() {
+      this.product.price = numberFormatter.format(Number(this.product.price.replace( /\s/g, "")))
+    }
   },
 }
 </script>

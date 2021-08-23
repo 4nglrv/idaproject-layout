@@ -11,3 +11,8 @@ extend('numeric', {
   ...numeric,
   message: 'Введите число',
 })
+
+extend('spacenum', {
+  validate: value => /^[\d\s]+$/.test(value),
+  message: 'Введите число',
+})
