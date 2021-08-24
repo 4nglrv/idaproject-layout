@@ -22,7 +22,7 @@ $ yarn generate
 - [x]  натянуть sass, использовать [css-modules](https://vue-loader.vuejs.org/guide/css-modules.html) или scoped
 - [x]  каждый компонент должен являться [SFC](https://ru.vuejs.org/v2/guide/single-file-components.html)
 - [x]  разработка задания в разных ветках по системе [git-flow](https://danielkummer.github.io/git-flow-cheatsheet/index.ru_RU.html)
-- [ ]  readme.md
+- [x]  readme.md
 - [x]  стилизация состояний взаимодействий (hover, active, focused) с элементами на свое усмотрение
 - [x]  верстка ui компонентов
 - [ ]  валидация для формы добавления товара
