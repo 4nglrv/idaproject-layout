@@ -112,7 +112,9 @@ export default {
   methods: {
     ...mapMutations('products', ['addProduct']),
     addProductToStore() {
+      this.product.price = Number(this.product.price.replace( /\s/g, ""))
       this.addProduct(this.product)
+      localStorage.setItem('products', JSON.stringify(this.$store.state.products.products))
       this.product = {
         id: Math.random().toString(36).substr(2, 9),
         name: '',
@@ -171,7 +173,7 @@ label {
     padding: 10px 16px;
     box-shadow: $box-shadow;
     resize: vertical;
-    transition: all 0.22s ease-in-out;
+    transition: border 0.22s ease-in-out;
     z-index: 1;
     &:focus {
       border: 1px solid $dark;
