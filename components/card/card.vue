@@ -91,13 +91,15 @@ export default {
   flex-basis: max-content;
   margin-left: 2%;
   margin-bottom: 2%;
+  max-height: 423px;
+  height: 100%;
 }
 .card {
   background: $white;
   box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.04),
     0px 6px 10px rgba(0, 0, 0, 0.02);
   border-radius: 4px;
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   width: 100%;
   position: relative;
@@ -128,27 +130,38 @@ export default {
     border-radius: 4px 4px 0 0;
     display: block;
     object-fit: cover;
-    height: 332px;
+    height: 63.2%;
     width: 100%;
   }
   &__body {
-    display: flex;
+    display: grid;
     flex-direction: column;
-    padding: 16px;
+    margin: 16px 16px 16px 16px;
+    overflow: hidden;
+    height: calc(100% - 63.2%);
     &--header {
+      display: block;
       font-weight: 600;
       font-size: 20px;
       line-height: 25px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    &--body {
+    &--text {
+      display: inline-block;
       font-weight: normal;
       font-size: 16px;
       line-height: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-wrap: break-word;
     }
     &--price {
       font-weight: 600;
       font-size: 24px;
       line-height: 30px;
+      margin-top: auto;
     }
   }
 }
