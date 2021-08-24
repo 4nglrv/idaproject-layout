@@ -1,9 +1,5 @@
 <template>
   <div class="wrapper">
-    <header>
-      <h1 style="margin-top: 32px; margin-bottom: 16px">Добавление товара</h1>
-    </header>
-
     <Nuxt />
   </div>
 </template>

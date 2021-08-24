@@ -34,15 +34,17 @@
           </defs>
         </svg>
       </button>
-      <img class="card__img" :src="product.link" />
+      <div class="card__img-block">
+        <img class="card__img-block--photo" :src="product.link" />
+      </div>
       <div class="card__body">
         <div class="card__body--header">
           {{ product.name }}
         </div>
         <p class="card__body--text">
-          {{ product.desc }}
+          {{ product.desc.length > 250 ? product.desc.slice(0, 250) + '...' : product.desc }}
         </p>
-        <div class="card__body--price">{{ product.price }} руб.</div>
+        <div class="card__body--price">{{ new Intl.NumberFormat('ru-RU').format(product.price) }} руб.</div>
       </div>
     </div>
   </div>
@@ -50,6 +52,7 @@
 
 <script>
 import { mapMutations } from 'vuex'
+
 export default {
   name: 'Card',
   props: {
@@ -64,12 +67,6 @@ export default {
     return {
       show: true,
     }
-  },
-
-  watch: {
-    product(newValue, oldValue) {
-      this.tween(oldValue, newValue)
-    },
   },
 
   methods: {
@@ -88,7 +85,6 @@ export default {
   display: inline-flex;
   transition: all 0.44s ease-out;
   width: 31.3%;
-  flex-basis: max-content;
   margin-left: 2%;
   margin-bottom: 2%;
   max-height: 423px;
@@ -104,6 +100,7 @@ export default {
   width: 100%;
   position: relative;
   transition: all 0.22s ease-out;
+  min-height: 423px;
   &:hover {
     transform: scale(1.03);
     .card__remove {
@@ -126,19 +123,24 @@ export default {
       transform: scale(0.95);
     }
   }
-  &__img {
+  &__img-block {
     border-radius: 4px 4px 0 0;
-    display: block;
-    object-fit: cover;
-    height: 63.2%;
+    display: flex;
+    justify-content: center;
+    height: 47.28%;
     width: 100%;
+    &--photo {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
   }
   &__body {
-    display: grid;
+    display: flex;
     flex-direction: column;
     margin: 16px 16px 16px 16px;
     overflow: hidden;
-    height: calc(100% - 63.2%);
+    height: calc(100% - 47.28%);
     &--header {
       display: block;
       font-weight: 600;
