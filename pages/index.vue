@@ -54,7 +54,6 @@ export default {
   },
   mounted() {
     const productsList = JSON.parse(localStorage.getItem('products')) || []
-    console.log(productsList)
     if (productsList.length > 0) {
       this.addProductsFromCache(productsList)
     }
