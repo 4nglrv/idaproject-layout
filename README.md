@@ -19,7 +19,7 @@ $ yarn generate
 
 ## TODO
 - [x]  создать проект на nuxt.js
-- [x]  натянуть sass, использовать [css-modules](https://vue-loader.vuejs.org/guide/css-modules.html) или scoped
+- [x]  использовать [css-modules](https://vue-loader.vuejs.org/guide/css-modules.html) или scoped
 - [x]  каждый компонент должен являться [SFC](https://ru.vuejs.org/v2/guide/single-file-components.html)
 - [x]  разработка задания в разных ветках по системе [git-flow](https://danielkummer.github.io/git-flow-cheatsheet/index.ru_RU.html)
 - [x]  readme.md
